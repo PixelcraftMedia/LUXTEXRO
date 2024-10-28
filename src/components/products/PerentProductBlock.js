@@ -15,7 +15,7 @@ const Product = ( props ) => {
  
  <div className="bg-blue rounded absolute right-2 top-2 z-10 text-white p-2">NEW</div>
 				<Link href={ `/product/${ product?.slug }`} >
-					<a>
+					<div>
 						<Image
 							className="object-cover bg-gray-100"
 							width="500"
@@ -25,7 +25,7 @@ const Product = ( props ) => {
                             defaultImgUrl={DEFAULT_PRODUCT_IMG_URL}
 							altText={product?.image?.altText ?? product?.slug}
 						/>
-					</a>
+					</div>
 				</Link>
 				<div className="product-info p-2 md:p-5">
 					<h3 className="product-title mt-3 font-medium text-gray-800 overflow-hidden">

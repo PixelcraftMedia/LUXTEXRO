@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://lux-tex.com.ua/
+
+# Sitemaps
+Sitemap: https://lux-tex.com.ua/sitemap.xml

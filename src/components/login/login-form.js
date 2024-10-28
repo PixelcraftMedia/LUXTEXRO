@@ -64,8 +64,8 @@
                  </button>
              </p>
              <div className='flex'>
-             <Link href="../../../registration/register-users"><a className='py-6 mr-6'>Реєстрація</a></Link>
-            <Link href="../../../registration/reset"><a className='py-6'>Створити пароль?</a></Link>
+             <Link href="../../../registration/register-users"><div className='py-6 mr-6'>Реєстрація</div></Link>
+            <Link href="../../../registration/reset"><div className='py-6'>Створити пароль?</div></Link>
              </div>
          </form>
          

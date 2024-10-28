@@ -139,26 +139,26 @@ const Nav = () => {
 						<li className="block">
 						
 						<Link href={item.linksubone	}>
-								<a className={`${ item.linksubone === "" ? 'hidden' : `hidden ${showDescription}`}`}>
+								<div className={`${ item.linksubone === "" ? 'hidden' : `hidden ${showDescription}`}`}>
 								{item.subone}
-								</a>
+								</div>
 							</Link>
 							{item.subtwo && item.subtwo !== "" && (
 							<Link href={item.linksubtwo	}>
-								<a className={`${ item.linksubtwo === "" ? 'hidden' : `hidden ${showDescription}`}`}>
+								<div className={`${ item.linksubtwo === "" ? 'hidden' : `hidden ${showDescription}`}`}>
 								{item.subtwo}
-								</a>
+								</div>
 							</Link>)}
 							{item.subevro && item.subevro !== "" && (
 							<Link  href={item.linksubevro	}>
-								<a className={`${ item.linksubevro === "" ? 'hidden' : `hidden ${showDescription}`}`} >
+								<div className={`${ item.linksubevro === "" ? 'hidden' : `hidden ${showDescription}`}`} >
 							{item.subevro}
-								</a>
+								</div>
 							</Link>)}
 							{item.subfamily && item.subfamily !== "" && (		<Link  href={item.linksubfamily	}>
-								<a className={`${ item.linksubfamily === "" ? 'hidden' : `hidden ${showDescription}`}`} >
+								<div className={`${ item.linksubfamily === "" ? 'hidden' : `hidden ${showDescription}`}`} >
 							{item.subfamily}
-								</a>
+								</div>
 							</Link>)}
 						</li>
 						
@@ -189,37 +189,37 @@ const Nav = () => {
 							
 							<li> 
 								<Link href={item.linksubone	}>
-						            <a className={`${ item.linksubone=== "" ? 'hidden' : 'block py-2 lg:inline-block lg:mt-0 font-thin text-lg text-white  hover:text-white '}`}>
+						            <div className={`${ item.linksubone=== "" ? 'hidden' : 'block py-2 lg:inline-block lg:mt-0 font-thin text-lg text-white  hover:text-white '}`}>
 									{item.subone}
 								
-						            </a>
+						            </div>
 					            </Link>
 							</li>
 							<li> 
 								<Link href={item.linksubtwo	}>
-						            <a className={`${ item.linksubtwo === "" ? 'hidden' : 'block py-2 lg:inline-block lg:mt-0 font-thin text-lg text-white  hover:text-white  '}`}>
+						            <div className={`${ item.linksubtwo === "" ? 'hidden' : 'block py-2 lg:inline-block lg:mt-0 font-thin text-lg text-white  hover:text-white  '}`}>
 						            
 									{item.subtwo}
-						            </a>
+						            </div>
 					            </Link>
 							
 							</li>
 							<li> 
 							
 								<Link href={item.linksubevro	}>
-						            <a className={`${ item.linksubevro === "" ? 'hidden' : 'block py-2 lg:inline-block lg:mt-0 font-thin text-lg text-white  hover:text-white  '}`}>
+						            <div className={`${ item.linksubevro === "" ? 'hidden' : 'block py-2 lg:inline-block lg:mt-0 font-thin text-lg text-white  hover:text-white  '}`}>
 						            
 									{item.subevro}
-						            </a>
+						            </div>
 					            </Link>
 							</li>
 							<li> 
 							
 							<Link href={item.linksubfamily	}>
-								<a className={`${ item.linksubfamily === "" ? 'hidden' : 'block py-2 lg:inline-block lg:mt-0 font-thin text-lg text-white  hover:text-white  '}`}>
+								<div className={`${ item.linksubfamily === "" ? 'hidden' : 'block py-2 lg:inline-block lg:mt-0 font-thin text-lg text-white  hover:text-white  '}`}>
 								
 								{item.subfamily}
-								</a>
+								</div>
 							</Link>
 						</li>
 							
@@ -242,7 +242,7 @@ const Nav = () => {
 					</Link>
 					<span className="font-semibold text-xl tracking-tight">
 					<Link href="/">
-					<a className=""></a>
+					<div className=""></div>
 					</Link>
 					</span>
 				</div>

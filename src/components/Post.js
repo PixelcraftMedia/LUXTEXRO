@@ -18,7 +18,7 @@ const Post = ( props ) => {
 					>
 						<div className="shadow_post relative">
 <Link href={ `/post/${ post?.id }`}  className="h-full">
-		<a>
+		<div>
 			<Image
 				className="object-cover bg-gray-100 "
 				width="500"
@@ -26,7 +26,7 @@ const Post = ( props ) => {
 				loading="lazy"
 				sourceUrl={post?.featuredImage?.node.sourceUrl }
 			/>
-	</a>
+	</div>
 	</Link>
 	</div>
 	<div className="product-info pb-8">

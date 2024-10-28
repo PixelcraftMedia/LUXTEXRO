@@ -13,12 +13,12 @@ const ParentCategoryBlock = ( props ) => {
  return (
 		
 			<Link href={`/tag/${category?.slug}`}>
-				<a>
+				
 				
 					
 					<h3 className=" top-2 left-2 text-text_grey bg-bottons   px-2  rounded-xl mt-3 mb-3 py-3 pl-3 shadow-lg shadow-gray-300">{category?.name}</h3>
 					
-				</a>
+			
 			</Link>
 		
 	);}

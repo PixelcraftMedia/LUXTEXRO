@@ -84,7 +84,7 @@ const ress  =  <table className="mt-2 w-full">
                        <div className="mt-3 mb-10">
                         <AddToCartButton className="mt-3 "    product={ product }/>
                         <div className='pt-4'>
-                     <Image   height={100} width={100} className="rounded-lg" objectPosition="center center" fill={true} objectFit={'cover'} src={Star}  /> </div>
+                     <Image   height={100} width={100} className="rounded-lg" objectPosition="center center"  objectFit={'cover'} src={Star}  /> </div>
                         </div>
                         <div
 className="singl_product_description mb-5 mt-3 "

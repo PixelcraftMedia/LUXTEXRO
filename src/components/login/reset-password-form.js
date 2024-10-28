@@ -55,7 +55,7 @@
                      
                         Ваш пароль створено. Ви можете { ' ' }
                      <Link href="/registration/register" className="link-button ">
-                       <a className="link-button bg-white text-black block p-3" >  Ввійти</a>
+                       <div className="link-button bg-white text-black block p-3" >  Ввійти</div>
                      </Link>
                      .
                  </p>

@@ -1,31 +1,27 @@
-
 const path = require("path");
-const allowedImageWordPressDomain = new URL(process.env.NEXT_PUBLIC_WORDPRESS_URL).hostname
+const allowedImageWordPressDomain = new URL(process.env.NEXT_PUBLIC_WORDPRESS_URL).hostname;
 
-module.exports =   {
- 
-    i18n: {
-        locales: ['ua'],
-        defaultLocale: 'ua',
+module.exports = {
+  webpack: (config) => {
+    config.experiments = { asyncWebAssembly: true, layers: true };
+    return config;
+  },
+  i18n: {
+    locales: ['ua'],
+    defaultLocale: 'ua',
+  },
+  sassOptions: {
+    includePaths: [path.join(__dirname, "styles")],
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',         // Протокол (https или http)
+        hostname: 'luxtexcopi.lux-texcv.com.ua',   // Домен, с которого разрешены изображения
+        port: '',                  // Порт, если требуется (оставьте пустым для стандартного)
+        pathname: '/**',           // Шаблон пути, где ** означает все подкаталоги
       },
-    webpackDevMiddleware: (config) => {
-        config.watchOptions = {
-            poll: 1000,
-            aggregateTimeout: 300,
-        };
-
-        return config;
-    },
-    sassOptions: {
-        includePaths: [path.join(__dirname, "styles")],
-    },
-    webpack5: true,
-    /**
-     * We specify which domains are allowed to be optimize.
-     * This is needed to ensure that external urls can't be abused.
-     * @see https://nextjs.org/docs/basic-features/image-optimization#domains
-     */
-    images: {
-        domains: [ allowedImageWordPressDomain, 'www.lux-tex.com.ro' ],
-    },
+      // Добавьте дополнительные паттерны для других доменов, если нужно
+    ],
+  },
 };

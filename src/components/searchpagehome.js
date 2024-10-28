@@ -200,7 +200,7 @@ const Nav = () => {
                       return (
                         <li className='bg-white p-3 border-2' key={slug}>
                           <Link tabIndex={index} href={ `/product/${slug }`} >
-                            <a>{name}({sku})</a>
+                            <div>{name}({sku})</div>
                           </Link>
                         </li>
                       );
