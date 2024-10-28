@@ -23,7 +23,7 @@ const PRODUCTS_AND_CATEGORIES_QUERY = gql`query {
       }
     }
   }
-  productCategories(first: 30) {
+  productCategories(first: 2) {
     nodes {
       id
       name
@@ -35,7 +35,7 @@ const PRODUCTS_AND_CATEGORIES_QUERY = gql`query {
       }
     }
   }
-  productTags(first: 30) {
+  productTags(first: 3) {
     nodes {
       id
       name

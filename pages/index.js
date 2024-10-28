@@ -96,7 +96,12 @@ export default function Home (props) {
 							.filter(category => category.slug !== "par-landing")
 							.filter(category => category.slug !== "uncategorized")
 							.filter(category => category.slug !== "vitamine-minerale")
-							
+							.filter(category => category.slug !== "advertising-package")
+							.filter(category => category.slug !== "offers")
+							.filter(category => category.slug !== "biazi-pivtoraspalnyy")
+							.filter(category => category.slug !== "strayp-satyn-dvospalnyy")
+							.filter(category => category.slug !== "biazi-dvospalnyy")
+							.filter(category => category.slug !== "slide1")
 							.map( category => <SwiperSlide >	<ParentCategoryBlock category={ category }/></SwiperSlide> )
 	  ) : '' }
   
