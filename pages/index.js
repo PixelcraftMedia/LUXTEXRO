@@ -173,107 +173,11 @@ export default function Home (props) {
 
 
 
-				<div className="products container mx-auto mt-20  ">
-				<h2 className="products-main-title main-title mb-5 text-5xl  lg:text-6xl text-center  font-bold">Приэднуйтеся до нашої Viber групи для ексклюзивних пропозицій та оновлень! </h2>
-				
-				<div className="flex justify-center items-center flex-col lg:flex-row">
-					<div className="w-full lg:w-6/12 m-3  relative ">
-					
-						<p className="text-justify mb-3"><strong> Шановні любителі затишку та комфорту! </strong>
-						Запрошуємо вас приєднатися до нашої Viber групи, де ви отримуватимете першими інформацію про нові колекції постільної білизни та текстилю, а також спеціальні акційні пропозиції! 
-						
-						
-						Не пропустіть можливість бути в курсі всіх наших пропозицій та насолоджуватися комфортом разом з нами! </p>
-							
-						<div><strong>	Приєднуйтеся за посиланям нижче:</strong></div>
-							<a href=" https://invite.viber.com/?g=Jzq36PUtHFBHc7yo6PwO9LwZE1xOid_3"><button className="button  text-white px-5 py-5 mt-10 rounded-full w-full ">Приєднатися <strong>Viber</strong></button></a>
-					</div>
-					<div onClick={handleDownload} className="w-full lg:w-6/12 m-3  relative "><Image    alt="viber -luxtex"   src={Telegram}  />
-						
-					</div>
-				</div>
 			
 			
 				
-			
-		
-			</div>
-				{/*Prodduts*/ }
-				<div className="mb-10">
-					<h1 className="text-5xl  lg:text-6xl font-bold mb-10 leading-normal">Постільна білизна від виробника LUXTEX</h1>
-					<div className="text-justify">
-					<p>Якість сну напряму впливає на нашу якість життя, а постільна білизна від виробника LUXTEX може допомогти покращити якість вашого сну, так як ми являємося експертами в нашій галузі понад 20 років, ми відшиваємо продукцію тільки з власних тканин тому відповідаємо за якість. Наші комплекти постільної білизни виготовлені з високоякісних матеріалів та з увагою до деталей, що дозволяє нам створювати товари найвищої якості. Ми пропонуємо різноманіття дизайнів та кольорів, щоб кожен міг знайти комплект, який підходить саме йому.</p>
-				<p>Окрім естетичної складової, постільна білизна від виробника LUXTEX також має високі показники зносостійкості та зберігання форми після прання. Наша білизна може забезпечити комфортну температуру в ліжку протягом всієї ночі, тому що ми використовуємо тканини з відповідною плотністю, які регулюють теплообмін.</p>
-				</div>
-				<h2 className="text-4xl  lg:text-5xl font-bold mb-10 mt-8">Розміри комплектів постільної білизни - підбір підковдри, наволочки та простирадла на резинці</h2>
-				<div className="text-justify">
-				 <p>
-		  <strong> Постільна білизна </strong> яку пропонує компанія LUXTEX виготовлена  в різних розмірах , що дає змогу підібрати потрібний комплект відповідного розміру для вашого ліжка : <strong>півтора, двоспальний, євро та сімейний.</strong> Нижче показана таблиця розмірів - де ви можете підібрати не тільки розмір постільної білизни, а й відповідні розміри для - підодіяльника, наволочки, та простені на резинці за бажанням. Дана таблиця опублікована на сторінці кожного товару для зручності користування сайтом 
-	  </p></div> 
-				<h2 className="text-4xl  lg:text-5xl font-bold mb-10 mt-8">Таблиця розмірів</h2>
+
 				
-    <table className="size-full text-center border-4 border-gray-900" style={{ height: '171px', width: '100%' }} >
-      <thead >
-        <tr>
-          <th className=" border border-gray-400 text-pers lg:text-base">розмір</th>
-          <th className="border border-gray-400 text-pers lg:text-base">підодіяльник</th>
-          <th className="border border-gray-400 text-pers lg:text-base">простирадло</th>
-          <th className="border border-gray-400 text-pers lg:text-base">наволочка</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr >
-          <td className=" border border-gray-400 text-pers lg:text-base">полуторний</td>
-          <td className=" border border-gray-400 text-pers lg:text-base">150*210</td>
-          <td className=" border border-gray-400 text-pers lg:text-base">150*210</td>
-          <td className=" border border-gray-400 text-pers lg:text-base">70*70/50*70(1шт.)</td>
-        </tr>
-        <tr>
-          <td className=" border border-gray-400 text-pers lg:text-base">двоспальний</td>
-          <td className=" border border-gray-400 text-pers lg:text-base">180*210</td>
-          <td className=" border border-gray-400 text-pers lg:text-base">200*220</td>
-          <td className=" border border-gray-400 text-pers lg:text-base">70*70/50*70(2шт.)</td>
-        </tr>
-        <tr>
-          <td className=" border border-gray-400 text-pers lg:text-base">євростандарт</td>
-          <td className=" border border-gray-400 text-pers lg:text-base">200*220</td>
-          <td className=" border border-gray-400 text-pers lg:text-base">220*220</td>
-          <td className=" border border-gray-400 text-pers lg:text-base">70*70/50*70(2шт.)</td>
-        </tr>
-        <tr>
-          <td className=" border border-gray-400 text-pers lg:text-base">сімейний</td>
-          <td className=" border border-gray-400 text-pers lg:text-base">150*210(2шт.)</td>
-          <td className=" border border-gray-400 text-pers lg:text-base">220*220</td>
-          <td className=" border border-gray-400 text-pers lg:text-base">70*70/50*70(2шт.)</td>
-        </tr>
-      </tbody>
-    </table>
-	<h2 className="text-4xl  lg:text-5xl font-bold mb-10 mt-8">Тканини які використовує виробник постільної білизни LUXTEX</h2>
-	<div className="text-justify">
-	<p>
-		
-		Наша постільна білизна виготовлена з різних тканин, таких як <a href="https://www.lux-tex.com.ua/product-category/postilna-bilyzna-ranfors/">ранфорс</a>, 
-				  <a href="https://www.lux-tex.com.ua/product-category/postilna-bilyzna-byazi/">бязь</a> та   <a href="https://www.lux-tex.com.ua/product-category/postilna-bilyzna-strayp-satyn/"> страйп сатин</a>.    
-		
-		<br/>
-		<strong>Ранфорс </strong> - це гладка тканина з тканинного переплетення з використанням відносно тонкої нитки. Вона міцна, зносостійка та добре тримає колір після прання.
-		<br/>
-		<strong>Бязь</strong> - це м'яка, гладка та приємна на дотик тканина з мереживним переплетенням. Вона добре пропускає повітря, тому є хорошим вибором для людей з чутливою шкірою.
-		<br/>
-		<strong>Страйп сатин</strong> - це тканина з глянцевим візерунком, який надає їй елегантний вигляд. Вона виготовляється з використанням плотного переплетення, яке дає їй високу міцність та зносостійкість.
-		
-		
-			  </p>
-			  
-			  <p>
-				<br/>
-				<strong>  Ми завжди на звязку з Вами</strong> - наші оператори нададуть Вам консультацію та допоможуть  обрати потрібну білизну, а також додатково нададуть фото та відео матеріали, щоб Ви були впевнені, в тому, що купуєте.
-			  </p>
-			  <p>
-		Купуючи постільну білизну від Українського  виробника LUXTEX, ви можете бути впевнені, що отримуєте товар високої якості, який зробить ваш сон більш комфортним та корисним для здоров'я. Зробіть вибір на користь якості та комфорту, оберіть постільну білизну від нашого виробника.
-		  </p>
-		  </div>
-				</div>
 				</div>
 				</div>
 				
