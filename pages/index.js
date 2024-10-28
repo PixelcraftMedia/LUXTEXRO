@@ -90,33 +90,16 @@ export default function Home (props) {
 				<div className="products container mx-auto hidden lg:block">
 
 				
-				
-				<Swiper
-				  autoplay={{
-					delay: 2500,
-					disableOnInteraction: false,
-				  }}
-				  modules={[Autoplay]}
-      spaceBetween={30}
-      slidesPerView={2}
-      onSlideChange={() => console.log('slide change')}
-      onSwiper={(swiper) => console.log(swiper)}
-    >
+	
 			{ productCategories.length ? (
 							productCategories
 							.filter(category => category.slug !== "par-landing")
 							.filter(category => category.slug !== "uncategorized")
 							.filter(category => category.slug !== "vitamine-minerale")
-							.filter(category => category.slug !== "advertising-package")
-							.filter(category => category.slug !== "offers")
-							.filter(category => category.slug !== "biazi-pivtoraspalnyy")
-							.filter(category => category.slug !== "strayp-satyn-dvospalnyy")
-							.filter(category => category.slug !== "biazi-dvospalnyy")
-							.filter(category => category.slug !== "slide1")
+							
 							.map( category => <SwiperSlide >	<ParentCategoryBlock category={ category }/></SwiperSlide> )
 	  ) : '' }
   
-    </Swiper>
 
 			
 	
