@@ -75,9 +75,7 @@ export default function Home (props) {
 
 			<Layout productTags={productTags}>
 	<div className="main ">
-				{/*Hero Carousel*/}
-				<HeroCarousel heroCarousel={heroCarousel}/>
-				
+			
 				
 			
 				{/*<a href="myfile.pdf"  download>Download</a>*/}

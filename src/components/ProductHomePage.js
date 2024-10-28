@@ -37,7 +37,10 @@ const result = amount/interest;
 							className="object-cover bg-gray-100"
 							width="500"
 							height="500"
-							loading="lazy"
+							priority={true}
+							
+						  
+							sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
 							sourceUrl={ product?.image?.sourceUrl ?? '' }
 							defaultImgUrl={DEFAULT_PRODUCT_HOME_IMG_URL}
 							altText={product.name}

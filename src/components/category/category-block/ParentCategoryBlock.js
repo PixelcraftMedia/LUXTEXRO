@@ -21,6 +21,10 @@ const ParentCategoryBlock = ( props ) => {
 						className=" rounded-lg"
 						layout="fill"
 						containerClassNames="h-80 md:h-96 "
+						priority={true}
+							
+						  
+							sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
 						sourceUrl={ category?.image?.sourceUrl ?? '' }
 						defaultImgUrl={DEFAULT_CATEGORY_IMG_URL}
 						altText={category?.image?.altText ?? category.slug}
