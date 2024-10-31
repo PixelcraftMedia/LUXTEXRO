@@ -192,13 +192,21 @@ const CheckoutForm = ({}) => {
         await setStatesForCountry(target, setTheBillingStates, setIsFetchingBillingStates);
     }
 
-    useEffect(async () => {
-
-        if (null !== orderData) {
-            // Call the checkout mutation when the value for orderData changes/updates.
-            await checkout();
+    useEffect(() => {
+        console.log('Executing checkout effect');
+    
+        if (orderData !== null) {
+            const executeCheckout = async () => {
+                console.log('Checkout started');
+                await checkout();
+                console.log('Checkout completed');
+            };
+            executeCheckout();
         }
-
+    
+        return () => {
+            console.log('Cleanup function called');
+        };
     }, [orderData]);
 
     // Loading state

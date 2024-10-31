@@ -27,7 +27,7 @@ export const middleware = new ApolloLink( ( operation, forward ) => {
 /**
  * Afterware operation.
  *
- * This catches the incoming session token and stores it in localStorage, for future GraphQL request.
+ * This catches the incoming session token and stores it in localStorage, for future GraphQL requests.
  */
 export const afterware = new ApolloLink( ( operation, forward ) => {
 

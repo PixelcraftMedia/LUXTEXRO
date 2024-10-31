@@ -1,95 +1,105 @@
-import { useState } from 'react';
-import { v4 } from "uuid";
+import { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { getUpdatedItems } from "../../../functions";
-import {Cross, Loading} from "../../icons";
+import { Cross } from "../../icons";
 
-const CartItem = ( {
-	                   item,
-	                   products,
-					   updateCartProcessing,
-	                   handleRemoveProductClick,
-	                   updateCart,
-                   } ) => {
+const CartItem = ({ item, products, updateCartProcessing, handleRemoveProductClick, updateCart }) => {
+    const [productCount, setProductCount] = useState(item.qty);
 
-	const [productCount, setProductCount] = useState( item.qty );
+    useEffect(() => {
+        // Пересчитываем товары и обновляем их в localStorage
+        const updatedProducts = products.map(product => {
+            if (product.cartKey === item.cartKey) {
+                return {
+                    ...product,
+                    qty: productCount,
+                    totalPrice: product.price * productCount,
+                };
+            }
+            return product;
+        });
 
-	/*
-	 * When user changes the qty from product input update the cart in localStorage
-	 * Also update the cart in global context
-	 *
-	 * @param {Object} event event
-	 *
-	 * @return {void}
-	 */
-	const handleQtyChange = ( event, cartKey ) => {
+        // Пересчитываем общую сумму всех товаров
+        const totalProductsPrice = updatedProducts.reduce((sum, product) => {
+            return sum + (product.totalPrice || 0);
+        }, 0);
 
-		if ( process.browser ) {
+        // Обновляем корзину в localStorage
+        const currentCart = JSON.parse(localStorage.getItem('woo-next-cart')) || {};
+        const updatedCart = {
+            ...currentCart,
+            products: updatedProducts,
+            totalProductsCount: updatedProducts.reduce((count, product) => count + product.qty, 0),
+            totalProductsPrice: totalProductsPrice, // Храним сумму как число
+        };
+        localStorage.setItem('woo-next-cart', JSON.stringify(updatedCart));
+    }, [productCount, item.cartKey, products]);
 
-			event.stopPropagation();
+    const handleQtyChange = async (event, cartKey) => {
+        event.stopPropagation();
 
-			// If the previous update cart mutation request is still processing, then return.
-			if ( updateCartProcessing ) {
-				return;
-			}
+        if (updateCartProcessing) return;
 
-			// If the user tries to delete the count of product, set that to 1 by default ( This will not allow him to reduce it less than zero )
-			const newQty = ( event.target.value ) ? parseInt( event.target.value ) : 1;
+        const newQty = event.target.value ? parseInt(event.target.value, 10) : 1;
+        setProductCount(newQty);
 
-			// Set the new qty in state.
-			setProductCount( newQty );
+        if (products.length) {
+            const updatedItems = getUpdatedItems(products, newQty, cartKey);
 
-			if ( products.length ) {
+            try {
+                await updateCart({
+                    variables: {
+                        input: {
+                            clientMutationId: uuidv4(),
+                            items: updatedItems,
+                        },
+                    },
+                });
+            } catch (error) {
+                console.error('Error updating cart:', error);
+            }
+        }
+    };
 
-				const updatedItems = getUpdatedItems( products, newQty, cartKey );
-
-				updateCart( {
-					variables: {
-						input: {
-							clientMutationId: v4(),
-							items: updatedItems
-						}
-					},
-				} );
-			}
-
-		}
-	};
-
-
-	return (
-		
-		<tr className="woo-next-cart-item" key={ item.productId }>
-			<th className="woo-next-cart-element woo-next-cart-el-close">
-				{/* Remove item */}
-				<span className="woo-next-cart-close-icon cursor-pointer"
-				      onClick={ ( event ) => handleRemoveProductClick( event, item.cartKey, products ) }>
-					<Cross/>
-				</span>
-			</th>
-			<td className="woo-next-cart-element">
-				<img width="64" src={ item.image.sourceUrl } srcSet={ item.image.srcSet } alt={ item.image.title }/>
-			</td>
-			<td className="woo-next-cart-element">{ item.name }</td>
-			{/*<td className="woo-next-cart-element">{ ( 'string' !== typeof item.price ) ? item.price.toFixed( 2 ) : item.price }</td>*/}
-
-			{/* Qty Input */ }
-			<td className="woo-next-cart-element woo-next-cart-qty">
-				{/* @TODO Need to update this with graphQL query */ }
-				<input
-					type="number"
-					min="1"
-					data-cart-key={ item.cartKey }
-					className={ `woo-next-cart-qty-input form-control ${ updateCartProcessing ? 'opacity-25 cursor-not-allowed' : '' } ` }
-					value={ productCount }
-					onChange={ ( event ) => handleQtyChange( event, item.cartKey ) }
-				/>
-			</td>
-			<td className="woo-next-cart-element">
-				{ ( 'string' !== typeof item.totalPrice ) ? item.totalPrice.toFixed( 2 ) : item.totalPrice }
-			</td>
-		</tr>
-		
-	)
+    return (
+        <tr className="woo-next-cart-item" key={item.productId}>
+            <th className="woo-next-cart-element woo-next-cart-el-close">
+                <span
+                    className="woo-next-cart-close-icon cursor-pointer"
+                    onClick={(event) => handleRemoveProductClick(event, item.cartKey, products)}
+                >
+                    <Cross />
+                </span>
+            </th>
+            <td className="woo-next-cart-element">
+                <img
+                    width="64"
+                    src={item.image.sourceUrl}
+                    srcSet={item.image.srcSet}
+                    alt={item.image.title}
+                />
+            </td>
+            <td className="woo-next-cart-element">{item.name}</td>
+            <td className="woo-next-cart-element woo-next-cart-qty">
+                <input
+                    type="number"
+                    min="1"
+                    data-cart-key={item.cartKey}
+                    className={`woo-next-cart-qty-input form-control ${updateCartProcessing ? 'opacity-25 cursor-not-allowed' : ''}`}
+                    value={productCount}
+                    onChange={(event) => handleQtyChange(event, item.cartKey)}
+                />
+            </td>
+            <td className="woo-next-cart-element">
+                {typeof item.totalPrice === 'number' 
+                    ? (item.totalPrice / 100).toLocaleString('uk-UA', {
+                        style: 'currency',
+                        currency: 'UAH',
+                    })
+                    : '0 грн'}
+            </td>
+        </tr>
+    );
 };
 
 export default CartItem;
