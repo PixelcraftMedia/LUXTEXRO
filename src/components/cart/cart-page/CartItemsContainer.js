@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { AppContext } from "../../context/AppContext";
 import { getFormattedCart, getUpdatedItems } from '../../../functions';
 import CartItem from "./CartItem";
@@ -9,34 +9,43 @@ import { useMutation, useQuery } from '@apollo/client';
 import UPDATE_CART from "../../../mutations/update-cart";
 import GET_CART from "../../../queries/get-cart";
 import CLEAR_CART_MUTATION from "../../../mutations/clear-cart";
-import { isEmpty } from 'lodash';
 import { useAuth } from '../../login-function/hooks';
 
 const CartItemsContainer = () => {
-    const { isLoggedIn } = useAuth();
+   
     const [cart, setCart] = useContext(AppContext);
     const [requestError, setRequestError] = useState(null);
 
-    // Get Cart Data
+    // Загружаем корзину из localStorage при монтировании
+    useEffect(() => {
+        const localCart = localStorage.getItem('woo-next-cart');
+        if (localCart) {
+            setCart(JSON.parse(localCart));
+        }
+    }, [setCart]);
+
+    // Получение данных корзины
     const { loading, error, data, refetch } = useQuery(GET_CART, {
         notifyOnNetworkStatusChange: true,
         onCompleted: () => {
             const updatedCart = getFormattedCart(data);
-            localStorage.setItem('woo-next-cart', JSON.stringify(updatedCart));
-            setCart(updatedCart);
+            if (updatedCart) {
+                localStorage.setItem('woo-next-cart', JSON.stringify(updatedCart));
+                setCart(updatedCart);
+            }
         }
     });
 
-    // Update Cart Mutation
+    // Мутация для обновления корзины
     const [updateCart, { loading: updateCartProcessing }] = useMutation(UPDATE_CART, {
-        onCompleted: () => refetch(),
+        onCompleted: refetch,
         onError: (error) => {
-            const errorMessage = error?.graphQLErrors?.[0]?.message || '';
+            const errorMessage = error?.graphQLErrors?.[0]?.message || 'Error updating cart';
             setRequestError(errorMessage);
         }
     });
 
-    // Clear Cart Mutation
+    // Мутация для очистки корзины
     const [clearCart, { loading: clearCartProcessing }] = useMutation(CLEAR_CART_MUTATION, {
         onCompleted: () => {
             setCart(null);
@@ -44,43 +53,51 @@ const CartItemsContainer = () => {
             refetch();
         },
         onError: (error) => {
-            const errorMessage = !isEmpty(error?.graphQLErrors?.[0]) ? error.graphQLErrors[0]?.message : '';
+            const errorMessage = error?.graphQLErrors?.[0]?.message || 'Error clearing cart';
             setRequestError(errorMessage);
         }
     });
 
-    // Handle removing a product from the cart
-	const handleRemoveProductClick = (event, cartKey, products) => {
+    // Удаление отдельного продукта из корзины
+    const handleRemoveProductClick = async (event, cartKey, products) => {
         event.stopPropagation();
-        const updatedItems = getUpdatedItems(products, 0, cartKey);
     
-        updateCart({
-            variables: {
-                input: {
-                    clientMutationId: uuidv4(), // Changed here
-                    items: updatedItems,
-                },
-            },
-        }).then(response => {
-            console.log("Product removed:", response);
-            refetch().then((res) => {
-                const updatedCart = getFormattedCart(res.data);
-                setCart(updatedCart);
-                localStorage.setItem('woo-next-cart', JSON.stringify(updatedCart));
-            });
-        }).catch(error => {
-            console.error("Error during update:", error);
-        });
-    };
-	
-
-    // Handle clearing the entire cart
-    const handleClearCart = (event) => {
-        event.stopPropagation();
-
-        if (clearCartProcessing) {
+        // Проверка на наличие необходимых данных
+        if (!cartKey || !products || !Array.isArray(products)) {
+            console.error("Invalid data provided for removing product.");
             return;
         }
+    
+        // Обновление элементов корзины с нулевым количеством для удаления продукта
+        const updatedItems = getUpdatedItems(products, 0, cartKey);
+    
+        try {
+            // Выполнение мутации для обновления корзины
+            await updateCart({
+                variables: {
+                    input: {
+                        clientMutationId: uuidv4(),
+                        items: updatedItems,
+                    },
+                },
+            });
+    
+            // Обновление данных корзины после мутации
+            const res = await refetch();
+            const updatedCart = getFormattedCart(res.data);
+            setCart(updatedCart);
+            localStorage.setItem('woo-next-cart', JSON.stringify(updatedCart));
+        } catch (error) {
+            // Логирование ошибки и установка сообщения об ошибке
+            console.error("Error during update:", error);
+            setRequestError('Error updating product in cart');
+        }
+    };
+    
+
+    const handleClearCart = (event) => {
+        event.stopPropagation();
+        if (clearCartProcessing) return;
 
         clearCart({
             variables: {
@@ -89,8 +106,22 @@ const CartItemsContainer = () => {
                     all: true
                 }
             },
+        }).then(() => {
+            localStorage.removeItem('woo-next-cart');
+            setCart(null);
+            refetch().then((res) => {
+                const updatedCart = getFormattedCart(res.data);
+                if (!updatedCart || !updatedCart.products.length) {
+                    setCart(null);
+                    localStorage.removeItem('woo-next-cart');
+                } else {
+                    setCart(updatedCart);
+                    localStorage.setItem('woo-next-cart', JSON.stringify(updatedCart));
+                }
+            });
         }).catch((error) => {
             console.error("Error clearing cart:", error);
+            setRequestError('Error clearing cart');
         });
     };
 
@@ -126,15 +157,21 @@ const CartItemsContainer = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {cart && cart.products.length > 0 && cart.products.map(item => (
-    <CartItem  key={item.productId}
-    item={item}
-    updateCartProcessing={updateCartProcessing}
-    products={cart.products}
-    handleRemoveProductClick={handleRemoveProductClick}
-    updateCart={updateCart} />
-))}
-                                       
+                                    {cart.products.length > 0 ? cart.products.map(item => (
+                                       <CartItem
+                                       item={item}
+                                       products={cart.products}
+                                       updateCartProcessing={updateCartProcessing}
+                                       handleRemoveProductClick={handleRemoveProductClick}
+                                       updateCart={updateCart}
+                                       setCart={setCart} // Передаем setCart в компонент
+                                       setRequestError={setRequestError}
+                                   />
+                                    )) : (
+                                        <tr>
+                                            <td colSpan="5" className="text-center">Корзина пуста</td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                             <div className="border p-5 bg-gray-200">
@@ -144,8 +181,9 @@ const CartItemsContainer = () => {
                                             <tr className="table-light flex flex-col">
                                                 <td className="woo-next-cart-element-total text-2xl font-normal">Проміжний підсумок</td>
                                                 <td className="woo-next-cart-element-amt text-2xl font-bold">
-                                                    {typeof cart.totalProductsPrice !== 'string' ? cart.totalProductsPrice.toFixed(2) : cart.totalProductsPrice}
-                                                </td>
+    {cart.totalProductsPrice
+}
+</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -157,7 +195,7 @@ const CartItemsContainer = () => {
                                 </div>
                             </div>
                         </div>
-                        {requestError && <div className="row woo-next-cart-total-container mt-5">{requestError}</div>}
+                        {requestError && <div className="mt-5 text-red-500">{requestError}</div>}
                     </div>
                 ) : (
                     <div className="container mx-auto my-32 px-4 xl:px-0">
@@ -190,7 +228,7 @@ const CartItemsContainer = () => {
                             </div>
                         </div>
                         <div className="grid grid-cols-1 xl:grid-cols-4 gap-0 xl:gap-4 mb-5">
-                            {cart.products.length > 0 && cart.products.map(item => (
+                            {cart.products.length > 0 ? cart.products.map(item => (
                                 <CartItemMobil
                                     key={item.productId}
                                     item={item}
@@ -199,7 +237,9 @@ const CartItemsContainer = () => {
                                     handleRemoveProductClick={handleRemoveProductClick}
                                     updateCart={updateCart}
                                 />
-                            ))}
+                            )) : (
+                                <p className="text-center">Корзина пуста</p>
+                            )}
                         </div>
                         <div className="mt-8 border p-5 bg-gray-200">
                             <div className="w-full">
@@ -208,8 +248,11 @@ const CartItemsContainer = () => {
                                         <tr className="table-light flex flex-col">
                                             <td className="woo-next-cart-element-total text-2xl font-normal">Проміжний підсумок</td>
                                             <td className="woo-next-cart-element-amt text-2xl font-bold">
-                                                {typeof cart.totalProductsPrice !== 'string' ? cart.totalProductsPrice.toFixed(2) : cart.totalProductsPrice}
-                                            </td>
+    {cart.totalProductsPrice && typeof cart.totalProductsPrice === 'number'
+        ? cart.totalProductsPrice.toFixed(2)
+        : '0.00'}
+</td>
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -220,7 +263,7 @@ const CartItemsContainer = () => {
                                 </Link>
                             </div>
                         </div>
-                        {requestError && <div className="row woo-next-cart-total-container mt-5">{requestError}</div>}
+                        {requestError && <div className="mt-5 text-red-500">{requestError}</div>}
                     </div>
                 ) : (
                     <div className="container mx-auto my-32 px-4 xl:px-0">
