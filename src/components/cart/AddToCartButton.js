@@ -68,7 +68,15 @@ const AddToCart = (props) => {
     const handleAddToCartClick = async () => {
         setRequestError(null);
         await addToCart();
+    
+        // Принудительное обновление состояния корзины.
+        refetch().then((res) => {
+            const updatedCart = getFormattedCart(res.data);
+            setCart(updatedCart);
+            localStorage.setItem('woo-next-cart', JSON.stringify(updatedCart));
+        });
     };
+    
 
     return (
     

@@ -27,7 +27,7 @@ const ress  =  <table className="mt-2 w-full">
 <tbody>
 {product && product.attributes && product.attributes.nodes && product.attributes.nodes.length > 0 ? (
   product.attributes.nodes.map((attribute, index) => (
-    <tr key={index}>
+    <tr key={attribute?.id || index}>
       <td className={`py-2 px-4 bg-gray-200`}>{attribute.name}</td>
       <td className="py-2 px-4">{attribute.options[0]}</td>
     </tr>

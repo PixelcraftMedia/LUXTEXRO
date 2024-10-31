@@ -25,8 +25,8 @@ import Telegram from "../public/vb.png"
 import 'react-alice-carousel/lib/alice-carousel.css';
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import { Autoplay } from 'swiper/modules';
+
+
 import ParentCategoryBlock from "../src/components/category/category-block/ParentCategoryBlock";
 import ParentTagBlock from "../src/components/category/category-block/ParentTagBlock";
 export default function Home (props) {
@@ -34,7 +34,7 @@ export default function Home (props) {
 	const { isLoggedIn } = useAuth();
 	
 	
-	<SarchProps isLoggedIn={isLoggedIn}/>
+	
 	const imageUrl = Telegram;
 
 	const handleDownload = () => {
@@ -49,17 +49,9 @@ export default function Home (props) {
 	
 	const { products,  heroCarousel, posts,productCategories,featuredproducts,productTags} = props || {};
 
-	const responsive = {
-		0: { items: 1 },
-		568: { items: 2 },
-		1024: { items:4 },
-	};
+	
 
 	
-	const items = [
-	
-		
-	];
 	
 	
 	
@@ -97,40 +89,11 @@ export default function Home (props) {
 			
 			
 			<div className="products container mx-auto px-4 my-10  ">
-					<h2 className="products-main-title main-title mb-10  text-center text-3xl  lg:text-6xl font-bold">Категорії</h2>
+				
 				<div className="products container mx-auto hidden lg:block">
 
 				
-				
-				<Swiper
-				  autoplay={{
-					delay: 2500,
-					disableOnInteraction: false,
-				  }}
-				  modules={[Autoplay]}
-      spaceBetween={30}
-      slidesPerView={2}
-      onSlideChange={() => console.log('slide change')}
-      onSwiper={(swiper) => console.log(swiper)}
-    >
-			{ productCategories.length ? (
-							productCategories
-							.filter(category => category.slug !== "par-landing")
-							.filter(category => category.slug !== "uncategorized")
-							.filter(category => category.slug !== "vitamine-minerale")
-							.filter(category => category.slug !== "advertising-package")
-							.filter(category => category.slug !== "offers")
-							.filter(category => category.slug !== "biazi-pivtoraspalnyy")
-							.filter(category => category.slug !== "strayp-satyn-dvospalnyy")
-							.filter(category => category.slug !== "biazi-dvospalnyy")
-							.filter(category => category.slug !== "slide1")
-							.map( category => <SwiperSlide >	<ParentCategoryBlock category={ category }/></SwiperSlide> )
-	  ) : '' }
-  
-    </Swiper>
 
-			
-	
 			
 		
 			</div>
@@ -146,7 +109,7 @@ export default function Home (props) {
 							.filter(category => category.slug !== "strayp-satyn-dvospalnyy")
 							.filter(category => category.slug !== "biazi-dvospalnyy")
 							.filter(category => category.slug !== "slide1")
-							.map( category => <SwiperSlide >	<ParentCategoryBlock  category={ category }/></SwiperSlide> )
+							.map( category => <SwiperSlide >	<ParentCategoryBlock key={category.id || category.slug} category={ category }/></SwiperSlide> )
 	  ) : '' }
 		</div>
 					{/*Post
@@ -176,13 +139,15 @@ export default function Home (props) {
       <strong>Постільна білизна</strong> від LUXTEX представлена в різних розмірах, що дає змогу підібрати оптимальний варіант для вашого ліжка: <strong>півтора, двоспальний, євро та сімейний</strong>. Ознайомтесь із таблицею розмірів нижче для зручності вибору відповідних розмірів підковдри, наволочки та простирадла. Детальні розміри доступні на сторінці кожного товару.
     </p>
   </div>
-            {productTags.length ? (
-				productTags
-					.filter(tag => tag.slug !== "navolochky-5070")
-					.filter(tag => tag.slug !== "navolochky-7070")
-                .map(category => <ParentTagBlock category={category}/>)
-				
-            ) : ''}
+  {productTags.length ? (
+    productTags
+        .filter(tag => tag.slug !== "navolochky-5070")
+        .filter(tag => tag.slug !== "navolochky-7070")
+        .map(category => (
+            <ParentTagBlock key={category.id || category.slug} category={category} />
+        ))
+) : ''}
+
 
 <h2 className="text-xl lg:text-2xl font-bold mb-10 mt-8">Таблиця розмірів</h2>
 

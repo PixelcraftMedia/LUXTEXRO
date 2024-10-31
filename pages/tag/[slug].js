@@ -28,14 +28,13 @@ export default function CategorySingle( props ) {
                 { TagDescription ? <p className=" mb-5 ">{ TagDescription }</p> : '' }
                 <div className="product-categories grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
                     { undefined !== products && products?.length ? (
-                        products.map( product =>  <Product key={ product?.id } isLoggedIn={isLoggedIn} product={ product } /> )
+                        products.map( product =>  <Product key={product?.id || product?.slug} isLoggedIn={isLoggedIn} product={ product } /> )
                     ) : ''}
                 </div>
             </div>
         </Layout>
     )
 };
-
 export async function getStaticProps(context) {
 
     const {params: { slug}} = context
